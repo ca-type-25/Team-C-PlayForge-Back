@@ -19,7 +19,7 @@ const articleSchema = new mongoose.Schema({
 
 
 
-    // ar reikia kad user galetu sukurti article/naujiena home page? ir jei taip prideti roles validacija.
+    // ar reikia kad user galetu sukurti article/naujiena home page? ir jei taip prideti roles validacija, kad galetu tik admin/moderator.
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
