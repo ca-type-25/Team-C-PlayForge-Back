@@ -7,7 +7,7 @@ require('dotenv').config()
 require('./db')
 
 // eslint-disable-next-line no-unused-vars
-const colors = require('colors')  //reikalingas importas kad spalvas turet terminale
+const colors = require('colors')
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -18,7 +18,10 @@ app.get('/', (req, res) => {
     res.json({ message: 'PlayForge API is running!' })
 })
 
+const articlesApiRoutes = require('./api/articlesAPI')
 const gamesApiRoutes = require('./api/gamesAPI')
+
+app.use('/articles', articlesApiRoutes)
 app.use('/games', gamesApiRoutes)
 
 const PORT = process.env.PORT || 3000

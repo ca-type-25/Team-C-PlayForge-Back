@@ -6,29 +6,35 @@ const articleSchema = new mongoose.Schema({
         required: true,
     },
 
-    article: {
+    content: {
         type: String,
         required: true,
     },
 
-    iframe: {
+    video: {
         type: String,
         trim: true,
     },
 
+    image: {
+        type: String,
+        trim: true,
+    },
 
-
-
-    // ar reikia kad user galetu sukurti article/naujiena home page? ir jei taip prideti roles validacija, kad galetu tik admin/moderator.
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    // -----------------------------------------------------------------
-
-
-
-
+    
+    subject: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+        },
+        type: {
+            type: String,
+            enum: ['Game', 'Studio', 'Genre'],
+        }
+    },
 }, { timestamps: true })
 
 const Article = mongoose.model('Article', articleSchema)
