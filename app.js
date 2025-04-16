@@ -7,7 +7,7 @@ require('dotenv').config()
 require('./db')
 
 // eslint-disable-next-line no-unused-vars
-const colors = require('colors')  //reikalingas importas kad spalvas turet terminale
+const colors = require('colors')
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
