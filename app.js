@@ -19,7 +19,8 @@ app.get('/', (req, res) => {
 })
 
 const gamesApiRoutes = require('./api/gamesAPI')
-app.use('/games', gamesApiRoutes)
+const articlesApiRoutes = require('./api/articlesAPI')
+app.use('/articles', articlesApiRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log('Server is running on port: '.italic.brightMagenta + `${PORT}`.italic.yellow))
