@@ -14,5 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(express.json())
 
+app.get('/', (req, res) => {
+    res.json({ message: 'PlayForge API is running!' })
+})
+
+const gamesApiRoutes = require('./api/gamesAPI')
+app.use('/games', gamesApiRoutes)
+
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log('Server is running on port: '.italic.brightMagenta + `${PORT}`.italic.yellow))

@@ -4,6 +4,7 @@ const gameSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        unique: true,
     },
 
     description: {
@@ -11,12 +12,12 @@ const gameSchema = new mongoose.Schema({
         required: true,
     },
 
-    developer: {
+    studio: {
         type: String,
         required: true,
     },
 
-    releaseYear: {
+    release: {
         type: Number,
         required: true,
     },    
@@ -26,15 +27,15 @@ const gameSchema = new mongoose.Schema({
         required: true,
     },
     
-    iframe: {
+    video: {
         type: String,
         required:true,
         trim: true,
     },
     
     rating: {
-        type: Number,
-        min: 0,
+        type: Number,    //Jei bus range input elementas reikes paversti is stringo i number kad praeitu sia validacija. Stepas nusistato fronte.
+        min: 1,
         max: 5,
     },
 
@@ -43,11 +44,6 @@ const gameSchema = new mongoose.Schema({
         ref: 'Genre',
         required: true,
     },
-
-
-    // del shopo, ar pridedam krepseli?
-
-
 }, { timestamps: true })
 
 const Game = mongoose.model('Game', gameSchema)
