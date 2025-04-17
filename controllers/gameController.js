@@ -2,7 +2,7 @@ const Game = require('../models/gameModel')
 
 const getGames = async (req, res) => {
     try {
-        const games = await Game.find()             //.populate('genres', 'title')
+        const games = await Game.find().populate('genres', 'title').populate('studio', 'name')
 
         res.send(games)
 
@@ -15,7 +15,7 @@ const getGames = async (req, res) => {
 const getGameById = async (req, res) => {
     try {
         const { id } = req.params
-        const game = await Game.findById(id)        //.populate('genres', 'title')
+        const game = await Game.findById(id).populate('genres', 'title').populate('studio', 'name')
         if (!game) {
             return res.status(404).send({ error: 'Game not found' })
         }
