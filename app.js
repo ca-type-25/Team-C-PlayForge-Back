@@ -22,11 +22,13 @@ const articlesApiRoutes = require('./api/articlesAPI')
 const gamesApiRoutes = require('./api/gamesAPI')
 const studiosApiRoutes = require('./api/studiosAPI')
 const topicsApiRoutes = require('./api/topicsAPI')
+const genresApiRoutes = require('./api/genresAPI')
 
 app.use('/articles', articlesApiRoutes)
 app.use('/games', gamesApiRoutes)
 app.use('/studios', studiosApiRoutes)
 app.use('/topics', topicsApiRoutes)
+app.use('/genres', genresApiRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log('Server is running on port: '.italic.brightMagenta + `${PORT}`.italic.yellow))
