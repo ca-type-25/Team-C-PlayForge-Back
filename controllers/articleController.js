@@ -2,7 +2,7 @@ const Article = require('../models/articleModel')
 
 const getArticles = async (req, res) => {
     try {
-        const articles = await Article.find()            
+        const articles = await Article.find().populate('subjects', 'title')            
 
         res.send(articles)
 
@@ -15,7 +15,7 @@ const getArticles = async (req, res) => {
 const getArticleById = async (req, res) => {
     try {
         const { id } = req.params
-        const article = await Article.findById(id)        
+        const article = await Article.findById(id).populate('subjects', 'title')        
         if (!article) {
             return res.status(404).send({ error: 'Article not found' })
         }

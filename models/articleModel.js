@@ -26,14 +26,9 @@ const articleSchema = new mongoose.Schema({
         ref: 'User',
     },
     
-    subject: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-        },
-        type: {
-            type: String,
-            enum: ['Game', 'Studio', 'Genre'],
-        }
+    subjects: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Subject',
     },
 }, { timestamps: true })
 
