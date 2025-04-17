@@ -13,7 +13,8 @@ const gameSchema = new mongoose.Schema({
     },
 
     studio: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Studio',
         required: true,
     },
 
