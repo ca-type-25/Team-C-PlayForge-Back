@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 })
 
 const articlesApiRoutes = require('./api/articlesAPI')
+const commentsApiRoutes = require('./api/commentsAPI')
 const gamesApiRoutes = require('./api/gamesAPI')
 const genresApiRoutes = require('./api/genresAPI')
 const reviewsApiRoutes = require('./api/reviewsAPI')
@@ -27,6 +28,7 @@ const subjectsApiRoutes = require('./api/subjectsAPI')
 const topicsApiRoutes = require('./api/topicsAPI')
 
 app.use('/articles', articlesApiRoutes)
+app.use('/comments', commentsApiRoutes)
 app.use('/games', gamesApiRoutes)
 app.use('/genres', genresApiRoutes)
 app.use('/reviews', reviewsApiRoutes)

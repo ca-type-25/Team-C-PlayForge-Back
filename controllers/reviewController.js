@@ -2,7 +2,7 @@ const Review = require('../models/reviewModel')
 
 const getReviews = async (req, res) => {
     try {
-        const reviews = await Review.find()            
+        const reviews = await Review.find().populate('game', 'title')//.populate('user', 'name')            
 
         res.send(reviews)
 
@@ -15,7 +15,7 @@ const getReviews = async (req, res) => {
 const getReviewById = async (req, res) => {
     try {
         const { id } = req.params
-        const review = await Review.findById(id)        
+        const review = await Review.findById(id).populate('game', 'title')//.populate('user', 'name')        
         if (!review) {
             return res.status(404).send({ error: 'Review not found' })
         }

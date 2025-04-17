@@ -2,7 +2,7 @@ const Topic = require('../models/topicModel')
 
 const getTopics = async (req, res) => {
     try {
-        const topics = await Topic.find()            
+        const topics = await Topic.find()//.populate('user', 'name')            
 
         res.send(topics)
 
@@ -15,7 +15,7 @@ const getTopics = async (req, res) => {
 const getTopicById = async (req, res) => {
     try {
         const { id } = req.params
-        const topic = await Topic.findById(id)        
+        const topic = await Topic.findById(id).populate('comments', 'message')//.populate('user', 'name')        
         if (!topic) {
             return res.status(404).send({ error: 'Topic not found' })
         }

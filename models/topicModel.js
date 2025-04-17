@@ -15,6 +15,11 @@ const topicSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
+
+    comments: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Comment'
+    },
 }, { timestamps: true })
 
 const Topic = mongoose.model('Topic', topicSchema)
