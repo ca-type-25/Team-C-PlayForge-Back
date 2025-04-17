@@ -21,8 +21,8 @@ const articleSchema = new mongoose.Schema({
         trim: true,
     },
 
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
+    users: {
+        type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
     },
     
