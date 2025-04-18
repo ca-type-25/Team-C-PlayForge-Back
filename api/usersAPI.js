@@ -7,7 +7,7 @@ const router = express.Router()
 router.post('/register', register)
 router.post('/login', login)
 
-router.put('/update', authMiddleware, updateUser)
+router.put('/:id', authMiddleware, updateUser)
 
 router.get('/', authMiddleware, getUsers)
 router.get('/:id', authMiddleware, getUserById)

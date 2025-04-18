@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const process = require('process')
 
 const User = require("../models/userModel")
+const ALLOWED_UPDATES = require('../config/userUpdates')
 
 const register = async (req, res) => {
     const { username, email, password } = req.body
@@ -79,30 +80,44 @@ const login = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
-    const { username } = req.body
     const { id } = req.user
-
-    if (!username) {
-        return res.status(400).send({ message: 'Username is required' })
+    const updates = {}
+    const requested = Object.keys(req.body)
+  
+    requested.forEach(field => {
+      if (ALLOWED_UPDATES.includes(field)) {
+        updates[field] = req.body[field]
+      }
+    })
+  
+    if (Object.keys(updates).length === 0) {
+      return res
+        .status(400)
+        .send({ message: 'No valid fields to update' })
     }
-    
+  
     try {
-        const updateUser = await User.findByIdAndUpdate(
-            id,
-            { username },
-            { new: true }
-        )
-
-        if (!updateUser) {
-            return res.status(404).send({ message: 'User does not exist' })
+      const user = await User.findByIdAndUpdate(
+        id,
+        updates,
+        {
+          new: true,
+          runValidators: true
         }
-
-        res.send({ message: 'User Successfully Updated', user: { username } })
-    } catch (error) {
-        res.status(500).send(error)
+      )
+  
+      if (!user) {
+        return res.status(404).send({ message: 'User not found' })
+      }
+  
+      res.send({
+        message: 'User successfully updated',
+        user
+      })
+    } catch (err) {
+      res.status(500).send(err)
     }
 }
-
 
 
 const getUsers = async (req, res) => {
