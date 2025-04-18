@@ -2,7 +2,7 @@ const Comment = require('../models/commentModel')
 
 const getComments = async (req, res) => {
     try {
-        const comments = await Comment.find().populate('topic', 'title')//.populate('user', 'name')           
+        const comments = await Comment.find().populate('topic', 'title').populate('user', 'name')           
 
         res.send(comments)
 
@@ -15,7 +15,7 @@ const getComments = async (req, res) => {
 const getCommentById = async (req, res) => {
     try {
         const { id } = req.params
-        const comments = await Comment.findById(id).populate('topic', 'title')//.populate('user', 'name')        
+        const comments = await Comment.findById(id).populate('topic', 'title').populate('user', 'name')        
         if (!comments) {
             return res.status(404).send({ error: 'Comment not found' })
         }

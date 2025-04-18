@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
+const ROLES = require('../config/roles')
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
         trim: true,
         validate: {
             validator: function(value) {
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         },
     },
 
-    nickname: {
+    username: {
         type: String,
         trim: true,
         unique: true,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
             validator: function(value) {
                 return /^[a-zA-Z0-9]+$/.test(value)
             },
-            message: props => `${props.value} is not a valid nickname`
+            message: props => `${props.value} is not a valid username`
         },
     },
 
@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         unique: true,
+        lowercase: true,
         validate: {
             validator: value => {
                 return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
@@ -49,6 +50,11 @@ const userSchema = new mongoose.Schema({
                 return `${value} is not a valid email.`
             }
         },
+    },
+
+    password: {
+        type: String,
+        required: true,
     },
 
     age: {
@@ -67,8 +73,8 @@ const userSchema = new mongoose.Schema({
 
     role: {
         type: String,
-        required: true,
-        default: 'user',
+        enum: Object.values(ROLES),
+        default: ROLES.USER,
     },
 
     comments: {
