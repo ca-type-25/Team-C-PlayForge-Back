@@ -26,6 +26,7 @@ const reviewsApiRoutes = require('./api/reviewsAPI')
 const studiosApiRoutes = require('./api/studiosAPI')
 const subjectsApiRoutes = require('./api/subjectsAPI')
 const topicsApiRoutes = require('./api/topicsAPI')
+const usersApiRoutes = require('./api/usersAPI')
 
 app.use('/articles', articlesApiRoutes)
 app.use('/comments', commentsApiRoutes)
@@ -35,6 +36,7 @@ app.use('/reviews', reviewsApiRoutes)
 app.use('/studios', studiosApiRoutes)
 app.use('/subjects', subjectsApiRoutes)
 app.use('/topics', topicsApiRoutes)
+app.use('/users', usersApiRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log('Server is running on port: '.italic.brightMagenta + `${PORT}`.italic.yellow))
