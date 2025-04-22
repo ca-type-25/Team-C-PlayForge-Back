@@ -95,6 +95,25 @@ const updateUser = async (req, res) => {
         .status(400)
         .send({ message: 'No valid fields to update' })
     }
+
+    if (updates.password) {
+        if (!req.body.currentPassword) {
+            return res.status(400).send({ message: 'Current password is required to change the password.' })
+        }
+
+        const user = await User.findById(id)
+        if (!user) {
+            return res.status(404).send({ message: 'User not found.' })
+        }
+
+        const isMatch = await bcrypt.compare(req.body.currentPassword, user.password)
+        if (!isMatch) {
+            return res.status(400).send({ message: 'Current password is incorrect.' })
+        }
+
+        const hashed = await bcrypt.hash(updates.password, 10)
+        updates.password = hashed
+    }
   
     try {
       const user = await User.findByIdAndUpdate(
