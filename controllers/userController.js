@@ -102,7 +102,8 @@ const updateUser = async (req, res) => {
         updates,
         {
           new: true,
-          runValidators: true
+          runValidators: true,
+          context: 'query',
         }
       )
   
