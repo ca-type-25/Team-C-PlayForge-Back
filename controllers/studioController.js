@@ -14,31 +14,32 @@ const getStudios = async (req, res) => {
 
 const getStudioById = async (req, res) => {
     try {
-        const { id } = req.params
-        const studio = await Studio.findById(id)        
+        const { id } = req.params;
+        const studio = await Studio.findById(id).populate('games', 'title release');
         if (!studio) {
-            return res.status(404).send({ error: 'Studio not found' })
+            return res.status(404).send({ error: 'Studio not found' });
         }
-
-        res.send(studio)
-        
+        res.send(studio);
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send(error);
     }
-}
-
+};
 
 const createStudio = async (req, res) => {
     try {
-        const studio = new Studio(req.body)
-        await studio.save()
-        res.send(studio)
-
+      const { name, description, year, games } = req.body;
+      const studio = await Studio.create({
+        name,
+        description,
+        year,
+        games,
+      });
+      res.status(201).json(studio);
     } catch (error) {
-        res.status(500).send(error)
+      console.error(error); 
+      res.status(500).json({ message: 'Failed to create studio', error: error.message });
     }
-}
-
+  };
 
 const updateStudio = async (req, res) => {
     try {

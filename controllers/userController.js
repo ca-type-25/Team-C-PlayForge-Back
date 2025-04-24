@@ -77,32 +77,76 @@ const login = async (req, res) => {
     }
 }
 
-
 const updateUser = async (req, res) => {
-    const { username } = req.body
-    const { id } = req.user
+    const { id } = req.params;
+    const updates = { ...req.body };
 
-    if (!username) {
-        return res.status(400).send({ message: 'Username is required' })
-    }
-    
     try {
-        const updateUser = await User.findByIdAndUpdate(
-            id,
-            { username },
-            { new: true }
-        )
-
-        if (!updateUser) {
-            return res.status(404).send({ message: 'User does not exist' })
+   
+        if (req.user.role !== 'admin' && req.user.id !== id) {
+            return res.status(403).send({ message: 'Unauthorized' });
         }
 
-        res.send({ message: 'User Successfully Updated', user: { username } })
-    } catch (error) {
-        res.status(500).send(error)
-    }
-}
+        if (req.user.role !== 'admin' && updates.role) {
+            return res.status(403).send({ 
+                message: 'Only admins can change user roles' 
+            });
+        }
 
+        // Hash password if it's being updated
+        if (updates.password) {
+            updates.password = await bcrypt.hash(updates.password, 10);
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            updates,
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+
+        res.send({ 
+            message: 'User updated successfully', 
+            user: updatedUser 
+        });
+    } catch (error) {
+        res.status(400).send({ 
+            message: 'Update failed', 
+            error: error.message 
+        });
+    }
+};
+
+const changeUserRole = async (req, res) => {
+
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Only admins can change roles.' });
+    }
+    const { id } = req.params;
+    const { role } = req.body;
+
+
+    if (!['user', 'admin'].includes(role)) {
+        return res.status(400).json({ message: 'Invalid role.' });
+    }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { role },
+            { new: true, runValidators: true }
+        );
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+        res.json({ message: 'Role updated.', user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 
 const getUsers = async (req, res) => {
@@ -156,5 +200,6 @@ module.exports = {
     getUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    changeUserRole
 }
