@@ -15,7 +15,7 @@ const getGames = async (req, res) => {
 const getGameById = async (req, res) => {
     try {
         const { id } = req.params
-        const game = await Game.findById(id).populate('genres', 'title').populate('studio', 'name')
+        const game = await Game.findById(id).populate('genres', 'title').populate('studio', 'name').populate('reviews')
         if (!game) {
             return res.status(404).send({ error: 'Game not found' })
         }
@@ -30,11 +30,13 @@ const getGameById = async (req, res) => {
 
 const createGame = async (req, res) => {
     try {
+        console.log('REQ.BODY:', req.body)
         const game = new Game(req.body)
         await game.save()
         res.send(game)
 
     } catch (error) {
+        console.error('CREATE GAME ERROR:', error)
         res.status(500).send(error)
     }
 }

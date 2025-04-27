@@ -78,10 +78,26 @@ const deleteReview = async (req, res) => {
     }
 }
 
+const getReviewsByGameId = async (req, res) => {
+    try {
+        const { gameId } = req.params
+        const reviews = await Review.find({ game: gameId }).populate('game', 'title')//.populate('user', 'name')        
+        if (!reviews) {
+            return res.status(404).send({ error: 'Reviews not found' })
+        }
+
+        res.send(reviews)
+        
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
 module.exports = {
     getReviews,
     getReviewById,
     createReview,
     updateReview,
-    deleteReview
+    deleteReview,
+    getReviewsByGameId
 }
