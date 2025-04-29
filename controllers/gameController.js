@@ -2,7 +2,7 @@ const Game = require('../models/gameModel')
 
 const getGames = async (req, res) => {
     try {
-        const games = await Game.find().populate('genres', 'title').populate('studio', 'name')
+        const games = await Game.find().populate('genres', 'title').populate('studio', 'name').populate('reviews', 'rating')
 
         res.send(games)
 

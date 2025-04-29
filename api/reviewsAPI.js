@@ -9,6 +9,6 @@ router.get('/:id', getReviewById)
 router.post('/', authMiddleware, createReview)
 router.put('/:id', authMiddleware, updateReview)
 router.delete('/:id', authMiddleware, deleteReview)
-router.get('/game/:gameId', authMiddleware, getReviewsByGameId)
+router.get('/game/:gameId', getReviewsByGameId)
 
 module.exports = router
