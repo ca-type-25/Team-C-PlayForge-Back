@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
 
     password: {
         type: String,
-        required: function() { return this.isNew; } // Only required when creating
+        required: function() { return this.isNew; } 
       }
       ,
 

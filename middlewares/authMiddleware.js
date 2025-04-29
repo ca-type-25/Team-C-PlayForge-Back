@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel'); // Import your User model
+const User = require('../models/userModel');
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.header('Authorization');
@@ -10,23 +10,29 @@ const authMiddleware = async (req, res, next) => {
   }
 
   try {
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    // Verify token structure
     if (!decoded?.id || !decoded?.role) {
-      return res.status(401).json({ message: 'Invalid token' });
+      return res.status(401).json({ message: 'Invalid token structure' });
     }
 
-    // Optional: Check if user exists in DB
     const user = await User.findById(decoded.id);
     if (!user) {
       return res.status(401).json({ message: 'User not found' });
     }
 
-    req.user = user; // Attach the full user document
+    req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Invalid token' });
+    console.error('Auth Middleware Error:', error.message);
+    let message = 'Invalid token';
+    if (error.name === 'TokenExpiredError') {
+      message = 'Token expired';
+    } else if (error.name === 'JsonWebTokenError') {
+      message = 'Invalid token signature';
+    }
+    res.status(401).json({ message });
   }
 };
 
