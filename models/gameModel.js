@@ -45,6 +45,11 @@ const gameSchema = new mongoose.Schema({
         ref: 'Genre',
         required: true,
     },
+
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+    }]
 }, { timestamps: true })
 
 const Game = mongoose.model('Game', gameSchema)
